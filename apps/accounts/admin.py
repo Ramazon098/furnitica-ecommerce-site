@@ -25,11 +25,10 @@ class CustomUserAdmin(UserAdmin):
         }),
     )
 
-    list_display = ('email', 'first_name', 'last_name', 'user_type', 'is_staff')
-    list_filter = ('is_staff', 'user_type', 'is_superuser', 'is_active', 'groups')
+    list_display = ('email', 'first_name', 'last_name', 'phone_number', 'is_staff')
+    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
     search_fields = ('email', 'first_name', 'last_name')
     ordering = ('email',)
     filter_horizontal = ('groups', 'user_permissions')
-    list_per_page = 25
 
 admin.site.register(CustomUser, CustomUserAdmin)
