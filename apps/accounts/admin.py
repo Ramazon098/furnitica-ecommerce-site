@@ -9,19 +9,20 @@ from apps.accounts.models import CustomUser
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
 
-    list_display = ['email',]
-    list_filter = ['email',]
-
     fieldsets = UserAdmin.fieldsets
 
     add_fieldsets = (
         (None, {
+            'classes': ('wide',),
             'fields': ('email', 'first_name', 'first_name', 'password1', 'password2'),
         }),
     )
 
-    search_fields = ('email',)
+    list_display = ('email', 'first_name', 'last_name', 'user_type', 'is_staff')
+    list_filter = ('is_staff', 'user_type', 'is_superuser', 'is_active', 'groups')
+    search_fields = ('email', 'first_name', 'last_name')
     ordering = ('email',)
-
+    filter_horizontal = ('groups', 'user_permissions')
+    list_per_page = 25
 
 admin.site.register(CustomUser, CustomUserAdmin)
