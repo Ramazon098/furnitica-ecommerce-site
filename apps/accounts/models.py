@@ -4,6 +4,8 @@ from django.contrib.auth.password_validation import validate_password
 
 from phonenumber_field.modelfields import PhoneNumberField
 
+from apps.accounts.managers import CustomUserManager
+
 
 # Create your models here.
 
@@ -43,12 +45,18 @@ class CustomUser(AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
 
+    objects = CustomUserManager()
+
     def __str__(self):
         return self.email
 
     @property
     def my_name(self):
         return f"{self.first_name} {self.last_name}"
+
+    class Meta:
+        verbose_name = 'Custom User'
+        verbose_name_plural = 'Custom Users'
 
 
 class Address(models.Model):
