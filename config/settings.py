@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
 
     # internal apps
+    'apps.accounts.apps.AccountsConfig',
 ]
 
 MIDDLEWARE = [
@@ -151,3 +152,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
+
+
+# Custom User Settings
+AUTH_USER_MODEL = "accounts.CustomUser"
