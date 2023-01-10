@@ -18,6 +18,9 @@ class RegisterSerializer(serializers.ModelSerializer):
         ],
     )
 
+    first_name = serializers.CharField(required=True)
+    last_name = serializers.CharField(required=True)
+
     password1 = serializers.CharField(
         style={'input_type': 'password'},
         write_only=True,
