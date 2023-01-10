@@ -37,5 +37,6 @@ class CustomUserAdmin(UserAdmin):
     ordering = ('email',)
     filter_horizontal = ('groups', 'user_permissions')
 
+
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Address)
