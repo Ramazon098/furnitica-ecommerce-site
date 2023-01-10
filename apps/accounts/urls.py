@@ -8,4 +8,5 @@ from apps.accounts import views
 urlpatterns = [
     path('', views.CustomUserAPIView.as_view()),
     path('<int:pk>/', views.CustomUserRetrieveAPIView.as_view()),
+    path('register/', views.RegisterAPIView.as_view()),
 ]

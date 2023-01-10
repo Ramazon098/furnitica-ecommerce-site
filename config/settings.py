@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     # external apps
     'rest_framework',
     'phonenumber_field',
+    'knox',
 
     # internal apps
     'apps.accounts.apps.AccountsConfig',
