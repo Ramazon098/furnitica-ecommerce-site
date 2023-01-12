@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+
 from django.contrib.auth.password_validation import validate_password
+from django.core.validators import RegexValidator
 
 from phonenumber_field.modelfields import PhoneNumberField
 
@@ -63,7 +65,7 @@ class Address(models.Model):
     user = models.ForeignKey(
         CustomUser,
         on_delete=models.CASCADE,
-        related_name='custom_users',
+        related_name='addresses',
         verbose_name="Custom Users",
     )
 
@@ -85,9 +87,10 @@ class Address(models.Model):
         verbose_name="Country",
     )
 
-    zip_code = models.IntegerField(
+    zip_code = models.CharField(
         max_length=5,
         null=True,
+        validators=[RegexValidator('^[0-9]{6}$', ('Invalid postal code'))],
         verbose_name="Zip Code",
     )
 
