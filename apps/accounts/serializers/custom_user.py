@@ -1,11 +1,11 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 
 from apps.accounts.models import CustomUser, Address
 
 
 # Create your serializers here.
 
-class AddressSerializer(ModelSerializer):
+class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
         fields = [
@@ -16,8 +16,12 @@ class AddressSerializer(ModelSerializer):
         ]
 
 
-class CustomUserSerializer(ModelSerializer):
-    address = AddressSerializer(read_only=True)
+class CustomUserSerializer(serializers.ModelSerializer):
+    custom_users = AddressSerializer(read_only=True, many=True)
+
+    # def get_address(self, obj):
+    #     address = Address.objects.filter(user=obj)
+    #     return AddressSerializer(instance=address).data
 
     class Meta:
         model = CustomUser
@@ -26,7 +30,7 @@ class CustomUserSerializer(ModelSerializer):
             'email',
             'my_name',
             'phone_number',
-            'address',
+            'custom_users',
             'is_staff',
             'is_superuser',
             'is_active',

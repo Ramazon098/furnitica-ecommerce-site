@@ -86,6 +86,7 @@ class Address(models.Model):
     )
 
     zip_code = models.IntegerField(
+        max_length=5,
         null=True,
         verbose_name="Zip Code",
     )
