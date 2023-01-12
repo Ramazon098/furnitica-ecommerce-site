@@ -62,10 +62,10 @@ class CustomUser(AbstractUser):
 
 
 class Address(models.Model):
-    user = models.ForeignKey(
+    user = models.OneToOneField(
         CustomUser,
         on_delete=models.CASCADE,
-        related_name='addresses',
+        related_name='address',
         verbose_name="Custom Users",
     )
 
