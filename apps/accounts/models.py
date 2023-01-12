@@ -90,7 +90,7 @@ class Address(models.Model):
     zip_code = models.CharField(
         max_length=5,
         null=True,
-        validators=[RegexValidator('^[0-9]{6}$', ('Invalid postal code'))],
+        validators=[RegexValidator('^[0-9]{5}$', ('Invalid postal code'))],
         verbose_name="Zip Code",
     )
 
