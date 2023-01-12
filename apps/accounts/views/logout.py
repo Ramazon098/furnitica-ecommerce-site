@@ -13,7 +13,7 @@ from knox.auth import AuthToken
 class LogoutAPIView(APIView):
     permission_classes = [IsAuthenticated,]
 
-    def get(self, request):
+    def post(self, request):
         user = request.user
         logout(request)
 
