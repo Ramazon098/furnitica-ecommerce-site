@@ -17,7 +17,7 @@ class AddressSerializer(ModelSerializer):
 
 
 class CustomUserSerializer(ModelSerializer):
-    addresses = AddressSerializer(read_only=True, many=True)
+    address = AddressSerializer(read_only=True)
 
     class Meta:
         model = CustomUser
@@ -26,7 +26,7 @@ class CustomUserSerializer(ModelSerializer):
             'email',
             'my_name',
             'phone_number',
-            'addresses',
+            'address',
             'is_staff',
             'is_superuser',
             'is_active',
