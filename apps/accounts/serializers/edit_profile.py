@@ -6,6 +6,7 @@ from apps.accounts.models import CustomUser, Address
 # Create your serializers here.
 
 class EditProfileSerializer(Serializer):
+
     class Meta:
         fields = [
             'id',

@@ -1,3 +1,5 @@
+from django.contrib.auth import update_session_auth_hash
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -22,6 +24,8 @@ class ChangePasswordAPIView(APIView):
 
         if serializer.is_valid():
             user = serializer.save()
+
+            update_session_auth_hash(request, user)
 
             _, token = AuthToken.objects.create(user)
 
