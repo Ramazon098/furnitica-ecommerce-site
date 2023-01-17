@@ -1,5 +1,7 @@
 from django.contrib.auth.models import BaseUserManager  
 
+from knox.auth import AuthToken
+
 
 # Create your managers here.
 
@@ -14,6 +16,8 @@ class CustomUserManager(BaseUserManager):
 
         user.set_password(password)
         user.save(using=self._db)
+
+        _, token = AuthToken.objects.create(user)
 
         return user
 
