@@ -14,7 +14,11 @@ class EditProfileSerializer(ModelSerializer):
         fields = [
             'id',
             'email',
-            'my_name',
-            'address',
+            'first_name',
+            'last_name',
             'phone_number',
+            'address',
         ]
+
+    def update(self, instance, validated_data):
+        return super().update(instance, validated_data)
