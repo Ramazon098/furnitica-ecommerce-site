@@ -1,15 +1,20 @@
-from rest_framework.serializers import Serializer
+from rest_framework.serializers import ModelSerializer
 
-from apps.accounts.models import CustomUser, Address
+from apps.accounts.serializers import AddressSerializer
+from apps.accounts.models import CustomUser
 
 
 # Create your serializers here.
 
-class EditProfileSerializer(Serializer):
+class EditProfileSerializer(ModelSerializer):
+    address = AddressSerializer()
 
     class Meta:
+        model = CustomUser
         fields = [
             'id',
+            'email',
             'my_name',
-            'company',
+            'address',
+            'phone_number',
         ]
