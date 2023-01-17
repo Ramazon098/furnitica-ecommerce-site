@@ -13,9 +13,27 @@ class EditProfileAPIView(APIView):
     serializer_class = EditProfileSerializer
 
     def put(self, request):
+        custom_user = request.user
+
         serializer = self.serializer_class(
+            instance=custom_user,
             data=request.data,
-            context={'request': request},
+        )
+
+        if serializer.is_valid():
+            serializer.save()
+
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request):
+        custom_user = request.user
+
+        serializer = self.serializer_class(
+            instance=custom_user,
+            data=request.data,
+            partial=True,
         )
 
         if serializer.is_valid():
