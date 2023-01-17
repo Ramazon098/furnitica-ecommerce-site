@@ -10,6 +10,7 @@ urlpatterns = [
     path('<int:pk>/', views.CustomUserRetrieveAPIView.as_view()),
 
     path('register/', views.RegisterAPIView.as_view()),
+    path('edit/profile/', views.EditProfileAPIView.as_view()),
 
     path('login/', views.LoginAPIView.as_view()),
     path('logout/', views.LogoutAPIView.as_view()),

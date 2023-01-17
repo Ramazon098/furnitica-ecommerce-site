@@ -9,6 +9,8 @@ from apps.accounts.views.login import LoginAPIView
 
 from apps.accounts.views.logout import LogoutAPIView
 
+from apps.accounts.views.edit_profile import EditProfileAPIView
+
 from apps.accounts.views.change_password import ChangePasswordAPIView
 
 
@@ -18,5 +20,6 @@ __all__ = [
     "RegisterAPIView",
     "LoginAPIView",
     "LogoutAPIView",
+    "EditProfileAPIView",
     "ChangePasswordAPIView",
 ]
