@@ -17,8 +17,7 @@ class CustomUserManager(BaseUserManager):
         user.set_password(password)
         user.save(using=self._db)
 
-        _, token = AuthToken.objects.create(user)
-
+        AuthToken.objects.create(user)
         return user
 
     def create_superuser(self, email, password, **extra_fields):
