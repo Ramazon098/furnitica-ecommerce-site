@@ -1,8 +1,9 @@
 from django.contrib.auth import update_session_auth_hash
 
 from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+
+from rest_framework.response import Response
 from rest_framework import status
 
 from apps.accounts.serializers import ChangePasswordSerializer
@@ -22,7 +23,6 @@ class ChangePasswordAPIView(APIView):
 
         if serializer.is_valid():
             user = serializer.save()
-
             update_session_auth_hash(request, user)
 
             return Response({
