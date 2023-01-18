@@ -13,29 +13,15 @@ class CustomUserAPIView(ListAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
 
-    # def get(self, request):
-    #     custom_users = CustomUser.objects.all()
-    #     serializer = self.serializer_class(instance=custom_users, many=True)
+    def list(self, request, *args, **kwargs):
+        if request.user.is_authenticated and not request.user.is_superuser:
+            return Response({
+                "login_error": "You must log out to get a list of users.",
+            }, status=status.HTTP_401_UNAUTHORIZED)
 
-    #     if request.user.is_authenticated and not request.user.is_superuser:
-    #         return Response({
-    #             "login_error": "You must log out to get a list of users.",
-    #         }, status=status.HTTP_401_UNAUTHORIZED)
-
-    #     return Response(data=serializer.data, status=status.HTTP_200_OK)
+        return super().list(request, *args, **kwargs)
 
 
 class CustomUserRetrieveAPIView(RetrieveAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
-
-    # def get(self, request, pk):
-    #     custom_user = CustomUser.objects.get(pk=pk)
-    #     serializer = self.serializer_class(instance=custom_user)
-
-    #     if request.user.is_authenticated and not request.user.is_superuser:
-    #         return Response({
-    #             "login_error": "You must log out to retrieve user information.",
-    #         }, status=status.HTTP_401_UNAUTHORIZED)
-
-    #     return Response(data=serializer.data, status=status.HTTP_200_OK)
