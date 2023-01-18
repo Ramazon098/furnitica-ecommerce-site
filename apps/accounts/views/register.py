@@ -1,9 +1,8 @@
-from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
 
 from knox.auth import AuthToken
-
 from apps.accounts.serializers import RegisterSerializer
 
 
@@ -22,7 +21,6 @@ class RegisterAPIView(APIView):
 
         if serializer.is_valid():
             user = serializer.save()
-
             _, token = AuthToken.objects.create(user)
 
             return Response({
