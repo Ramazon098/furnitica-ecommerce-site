@@ -1,5 +1,4 @@
 from rest_framework.generics import ListAPIView, RetrieveAPIView
-
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -25,3 +24,11 @@ class CustomUserAPIView(ListAPIView):
 class CustomUserRetrieveAPIView(RetrieveAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        if request.user.is_authenticated and not request.user.is_superuser:
+            return Response({
+                "login_error": "You must log out to get a list of users.",
+            }, status=status.HTTP_401_UNAUTHORIZED)
+
+        return super().retrieve(request, *args, **kwargs)
