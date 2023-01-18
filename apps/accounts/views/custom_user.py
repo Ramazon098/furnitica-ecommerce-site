@@ -27,12 +27,18 @@ class CustomUserRetrieveAPIView(APIView):
     serializer_class = CustomUserSerializer
 
     def get(self, request, pk):
-        custom_user = CustomUser.objects.get(pk=pk)
-        serializer = self.serializer_class(instance=custom_user)
+        try:
+            custom_user = CustomUser.objects.get(pk=pk)
+            serializer = self.serializer_class(instance=custom_user)
 
-        if request.user.is_authenticated and not request.user.is_superuser:
+            if request.user.is_authenticated and not request.user.is_superuser:
+                return Response({
+                    "login_error": "You must log out to retrieve user information.",
+                }, status=status.HTTP_401_UNAUTHORIZED)
+
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+        except CustomUser.DoesNotExist:
             return Response({
-                "login_error": "You must log out to retrieve user information.",
-            }, status=status.HTTP_401_UNAUTHORIZED)
-
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
+                "not_found": "The requested user was not found.",
+            }, status=status.HTTP_204_NO_CONTENT)
