@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 
 from apps.accounts.serializers import EditProfileSerializer
+from apps.accounts.models import CustomUser
 
 
 # Create your views here.
@@ -13,8 +14,10 @@ class EditProfileAPIView(APIView):
     serializer_class = EditProfileSerializer
 
     def put(self, request):
+        custom_user = CustomUser.objects.get(pk=request.user.id)
+
         serializer = self.serializer_class(
-            instance=request.user,
+            instance=custom_user,
             data=request.data,
         )
 
