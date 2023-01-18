@@ -1,11 +1,10 @@
 from django.contrib.auth import authenticate, login
 
-from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
 
 from knox.auth import AuthToken
-
 from apps.accounts.serializers import LoginSerializer
 
 
@@ -34,7 +33,6 @@ class LoginAPIView(APIView):
 
             if user is not None:
                 login(request, user)
-
                 _, token = AuthToken.objects.create(user)
 
                 return Response({
