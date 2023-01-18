@@ -40,4 +40,4 @@ class LoginAPIView(APIView):
                     'token': token,
                 }, status=status.HTTP_200_OK)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
