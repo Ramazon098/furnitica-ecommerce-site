@@ -30,6 +30,7 @@ class EditProfileSerializer(ModelSerializer):
 
                 for item, cost in value.items():
                     setattr(address, item, cost)
+
                 address.save()
             else:
                 setattr(instance, attr, value)
