@@ -41,4 +41,4 @@ class CustomUserRetrieveAPIView(APIView):
         except CustomUser.DoesNotExist:
             return Response({
                 "not_found": "The requested user was not found.",
-            }, status=status.HTTP_204_NO_CONTENT)
+            }, status=status.HTTP_404_NOT_FOUND)
