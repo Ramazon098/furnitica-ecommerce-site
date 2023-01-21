@@ -89,9 +89,27 @@ class Address(models.Model):
     zip_code = models.CharField(
         max_length=5,
         null=True,
-        validators=[RegexValidator('^[0-9]{5}$', ('Invalid postal code'))],
+        validators=[RegexValidator('^[0-9]{5}$', ('Invalid postal code.'))],
         verbose_name="Zip Code",
     )
 
     def __str__(self):
         return self.city
+
+
+class Otp(models.Model):
+    user = models.OneToOneField(
+        CustomUser,
+        on_delete=models.CASCADE,
+        related_name='otp',
+        verbose_name="Custom Users",
+    )
+
+    otp = models.CharField(
+        max_length=5,
+        validators=[RegexValidator('^[0-9]{5}$', ('Invalid postal code.'))],
+        verbose_name="One-time password",
+    )
+
+    def __str__(self):
+        return self.otp
