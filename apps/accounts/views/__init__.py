@@ -13,6 +13,12 @@ from apps.accounts.views.edit_profile import EditProfileAPIView
 
 from apps.accounts.views.change_password import ChangePasswordAPIView
 
+from apps.accounts.views.reset_password import (
+    SendCodeAPIView,
+    VerifyOtpAPIView,
+    ResetPasswordAPIView,
+)
+
 
 __all__ = [
     "CustomUserAPIView",
@@ -22,4 +28,7 @@ __all__ = [
     "LogoutAPIView",
     "EditProfileAPIView",
     "ChangePasswordAPIView",
+    "SendCodeAPIView",
+    "VerifyOtpAPIView",
+    "ResetPasswordAPIView",
 ]
