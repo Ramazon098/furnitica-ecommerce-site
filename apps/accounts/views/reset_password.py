@@ -28,8 +28,7 @@ class SendCodeAPIView(APIView):
 
             try:
                 user = CustomUser.objects.get(email=email)
-                random_otp = 111111
-                Otp.objects.create(user=user, otp=random_otp)
+                random_otp = Otp.objects.get(user=user).otp
 
                 send_mail(
                     "Your account verification email.",

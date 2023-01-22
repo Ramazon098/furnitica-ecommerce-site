@@ -1,6 +1,11 @@
+from random import randint
+from django import apps
+
 from django.contrib.auth.password_validation import validate_password
 
 from rest_framework import serializers
+
+from apps.accounts.models import CustomUser, Otp
 
 
 # Create your serializers here.
@@ -12,6 +17,11 @@ class SendCodeSerializer(serializers.Serializer):
         fields = [
             'email',
         ]
+
+    def create(self, validated_data):
+        user = CustomUser.objects.get(email=validated_data['email'])
+        random_otp = randint(100000, 999999)
+        return Otp.objects.create(user=user, otp=random_otp)
 
 
 class VerifyOtpSerializer(serializers.Serializer):

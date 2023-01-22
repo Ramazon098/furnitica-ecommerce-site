@@ -106,8 +106,8 @@ class Otp(models.Model):
     )
 
     otp = models.CharField(
-        max_length=5,
-        validators=[RegexValidator('^[0-9]{5}$', ('Invalid postal code.'))],
+        max_length=6,
+        validators=[RegexValidator('^[0-9]{6}$', ('Invalid postal code.'))],
         verbose_name="One-time password",
     )
 
