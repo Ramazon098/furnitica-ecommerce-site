@@ -1,5 +1,4 @@
 from random import randint
-from django import apps
 
 from django.contrib.auth.password_validation import validate_password
 
@@ -19,9 +18,21 @@ class SendCodeSerializer(serializers.Serializer):
         ]
 
     def create(self, validated_data):
+        # mavjud bo'lmaslik shartini ham ko'rish
         user = CustomUser.objects.get(email=validated_data['email'])
         random_otp = randint(100000, 999999)
-        return Otp.objects.create(user=user, otp=random_otp)
+
+        if Otp.objects.filter(otp=random_otp).exists():
+            random_otp = randint(100000, 999999)
+
+        if Otp.objects.filter(user=user).exists():
+            otp_user = Otp.objects.get(user=user)
+            otp_user.otp = random_otp
+            otp_user.save()
+        else:
+            _ = Otp.objects.create(user=user, otp=random_otp)
+
+        return validated_data
 
 
 class VerifyOtpSerializer(serializers.Serializer):
@@ -31,6 +42,9 @@ class VerifyOtpSerializer(serializers.Serializer):
         fields = [
             'otp',
         ]
+
+    def create(self, validated_data):
+        return validated_data
 
 
 class ResetPasswordSerializer(serializers.Serializer):
@@ -59,3 +73,6 @@ class ResetPasswordSerializer(serializers.Serializer):
             })
 
         return attrs
+
+    def create(self, validated_data):
+        return validated_data

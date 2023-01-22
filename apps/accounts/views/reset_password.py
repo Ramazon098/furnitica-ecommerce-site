@@ -33,7 +33,8 @@ class SendCodeAPIView(APIView):
                 send_mail(
                     "Your account verification email.",
                     f"Your otp is: {random_otp}.",
-                    email,
+                    'ramazon0619@gmail.com',
+                    [email],
                 )
 
                 return Response({
@@ -51,7 +52,7 @@ class SendCodeAPIView(APIView):
 class VerifyOtpAPIView(APIView):
     serializer_class = VerifyOtpSerializer
 
-    def get(self, request):
+    def post(self, request):
         serializer = self.serializer_class(data=request.data)
         otp = request.data['otp']
 
@@ -59,10 +60,10 @@ class VerifyOtpAPIView(APIView):
             serializer.save()
 
             try:
-                Otp.objects.get(otp=otp)
+                _ = Otp.objects.get(otp=otp)
                 current_site = get_current_site(request=request).domain
-                realtive_link = reverse('reset-password', kwargs={'otp': otp})
-                absolute_url = 'http://' + current_site + realtive_link
+                relative_link = reverse('reset-password', kwargs={'otp': otp})
+                absolute_url = 'http://' + current_site + relative_link
 
                 return Response({
                     "verify_otp": "Execute the api request given below.",
@@ -80,14 +81,24 @@ class VerifyOtpAPIView(APIView):
 class ResetPasswordAPIView(APIView):
     serializer_class = ResetPasswordSerializer
 
-    def post(self, request):
+    def put(self, request, otp):
         serializer = self.serializer_class(data=request.data)
 
         if serializer.is_valid():
             serializer.save()
 
-            return Response({
-                "password_success": "Your password has been successfully reset.",
-            }, status=status.HTTP_200_OK)
+            try:
+                user = Otp.objects.get(otp=otp).user
+                user.set_password(request.data['new_password'])
+                user.save()
+
+                return Response({
+                    "password_success": "Your password has been successfully reset.",
+                }, status=status.HTTP_200_OK)
+
+            except Otp.DoesNotExist:
+                return Response({
+                    "not_found": "The code you entered did not match the code sent to your email.",
+                }, status=status.HTTP_404_NOT_FOUND)
 
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
