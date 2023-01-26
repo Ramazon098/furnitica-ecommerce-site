@@ -3,6 +3,7 @@ from apps.accounts.views.custom_user import (
     CustomUserRetrieveAPIView,
 )
 
+
 from apps.accounts.views.register import RegisterAPIView
 
 from apps.accounts.views.login import LoginAPIView
