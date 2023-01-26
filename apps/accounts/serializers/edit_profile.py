@@ -4,7 +4,6 @@ from apps.accounts.serializers import AddressSerializer
 from apps.accounts.models import CustomUser, Address
 
 
-
 # Create your serializers here.
 
 class EditProfileSerializer(ModelSerializer):
