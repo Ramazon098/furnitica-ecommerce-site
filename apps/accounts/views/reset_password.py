@@ -38,7 +38,7 @@ class SendCodeAPIView(APIView):
                 )
 
                 return Response({
-                    "code_send": "The code has been successfully sent to your email.",
+                    "send_code": "The code has been successfully sent to your email.",
                 }, status=status.HTTP_200_OK)
 
             except CustomUser.DoesNotExist:
