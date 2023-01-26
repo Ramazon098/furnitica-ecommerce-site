@@ -9,6 +9,7 @@ from rest_framework import status
 from apps.accounts.serializers import ChangePasswordSerializer
 
 
+
 # Create your views here.
 
 class ChangePasswordAPIView(APIView):
