@@ -7,7 +7,6 @@ from rest_framework import status
 from apps.accounts.serializers import EditProfileSerializer
 
 
-
 # Create your views here.
 
 class EditProfileAPIView(APIView):
