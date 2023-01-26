@@ -8,7 +8,6 @@ from phonenumber_field.modelfields import PhoneNumberField
 from apps.accounts.managers import CustomUserManager
 
 
-
 # Create your models here.
 
 class CustomUser(AbstractUser):
