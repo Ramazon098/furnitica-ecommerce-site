@@ -3,7 +3,6 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 
 
-
 # Create your serializers here.
 
 class ChangePasswordSerializer(serializers.Serializer):
