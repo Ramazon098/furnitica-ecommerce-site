@@ -6,6 +6,7 @@ from apps.accounts.models import CustomUser
 from apps.accounts.serializers import CustomUserSerializer
 
 
+
 # Create your views here.
 
 class CustomUserAPIView(APIView):
