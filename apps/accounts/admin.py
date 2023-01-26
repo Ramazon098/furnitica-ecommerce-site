@@ -4,7 +4,6 @@ from django.contrib.auth.admin import UserAdmin
 from apps.accounts.models import CustomUser, Address, Otp
 
 
-
 # Register your models here.
 
 class CustomUserAdmin(UserAdmin):
