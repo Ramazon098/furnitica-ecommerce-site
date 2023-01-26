@@ -6,6 +6,7 @@ from rest_framework.validators import UniqueValidator
 from apps.accounts.models import CustomUser
 
 
+
 # Create your serializers here.
 
 class RegisterSerializer(serializers.ModelSerializer):
