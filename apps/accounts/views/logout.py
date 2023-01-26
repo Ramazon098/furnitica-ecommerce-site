@@ -9,7 +9,6 @@ from rest_framework import status
 from knox.auth import AuthToken
 
 
-
 # Create your views here.
 
 class LogoutAPIView(APIView):
