@@ -8,7 +8,6 @@ from knox.auth import AuthToken
 from apps.accounts.serializers import LoginSerializer
 
 
-
 # Create your views here.
 
 class LoginAPIView(APIView):
