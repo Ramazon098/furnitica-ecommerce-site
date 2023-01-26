@@ -6,7 +6,6 @@ from knox.auth import AuthToken
 from apps.accounts.serializers import RegisterSerializer
 
 
-
 # Create your views here.
 
 class RegisterAPIView(APIView):
