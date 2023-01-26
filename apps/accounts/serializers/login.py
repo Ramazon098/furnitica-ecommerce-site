@@ -5,6 +5,7 @@ from rest_framework import serializers
 from apps.accounts.models import CustomUser
 
 
+
 # Create your serializers here.
 
 class LoginSerializer(serializers.ModelSerializer):
