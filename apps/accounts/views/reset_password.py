@@ -1,3 +1,5 @@
+from random import randint
+
 from django.core.mail import send_mail
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
@@ -28,19 +30,17 @@ class SendCodeAPIView(APIView):
 
             try:
                 user = CustomUser.objects.get(email=email)
-                random_otp = Otp.objects.get(user=user).otp
-        # user = CustomUser.objects.get(email=validated_data['email'])
-        # random_otp = randint(100000, 999999)
+                random_otp = randint(100000, 999999)
 
-        # if Otp.objects.filter(otp=random_otp).exists():
-        #     random_otp = randint(100000, 999999)
+                while Otp.objects.filter(otp=random_otp).exists():
+                    random_otp = randint(100000, 999999)
 
-        # if Otp.objects.filter(user=user).exists():
-        #     otp_user = Otp.objects.get(user=user)
-        #     otp_user.otp = random_otp
-        #     otp_user.save()
-        # else:
-        #     _ = Otp.objects.create(user=user, otp=random_otp)
+                if Otp.objects.filter(user=user).exists():
+                    otp_user = Otp.objects.get(user=user)
+                    otp_user.otp = random_otp
+                    otp_user.save()
+                else:
+                    _ = Otp.objects.create(user=user, otp=random_otp)
 
                 send_mail(
                     "Your account verification email.",
@@ -51,7 +51,7 @@ class SendCodeAPIView(APIView):
 
                 return Response({
                     "send_code": "The code has been successfully sent to your email.",
-                }, status=status.HTTP_200_OK)
+                }, status=status.HTTP_201_CREATED)
 
             except CustomUser.DoesNotExist:
                 return Response({
@@ -100,13 +100,16 @@ class ResetPasswordAPIView(APIView):
             serializer.save()
 
             try:
-                user = Otp.objects.get(otp=otp).user
-                user.set_password(request.data['new_password'])
-                user.save()
+                otp = Otp.objects.get(otp=otp)
+                otp.user.set_password(request.data['new_password'])
+                otp.user.save()
+
+                otp.delete()
+                otp.save()
 
                 return Response({
                     "password_success": "Your password has been successfully reset.",
-                }, status=status.HTTP_200_OK)
+                }, status=status.HTTP_205_RESET_CONTENT)
 
             except Otp.DoesNotExist:
                 return Response({
