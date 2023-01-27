@@ -27,6 +27,6 @@ class ChangePasswordAPIView(APIView):
 
             return Response({
                 "password_success": "Your password has been successfully changed.",
-            }, status=status.HTTP_200_OK)
+            }, status=status.HTTP_205_RESET_CONTENT)
 
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
