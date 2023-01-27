@@ -1,10 +1,6 @@
-from random import randint
-
 from django.contrib.auth.password_validation import validate_password
 
 from rest_framework import serializers
-
-from apps.accounts.models import CustomUser, Otp
 
 
 # Create your serializers here.
