@@ -3,7 +3,6 @@ from django.contrib.auth.models import BaseUserManager
 from knox.auth import AuthToken
 
 
-
 # Create your managers here.
 
 class CustomUserManager(BaseUserManager):
