@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from apps.accounts.models import CustomUser
-from apps.accounts.permissions import NotIsAuthenticated
+from apps.accounts.permissions import NotIsAuthenticated, NotIsAuthenticatedAndIsAdminSuper
 from apps.accounts.serializers import (
     CustomUserSerializer, EditProfileSerializer,
 )
@@ -26,6 +26,7 @@ class CustomUserAPIView(APIView):
 
 
 class CustomUserRetrieveAPIView(APIView):
+    permission_classes = [NotIsAuthenticated,]
     serializer_class = CustomUserSerializer
 
     def get(self, request, pk):
@@ -34,11 +35,6 @@ class CustomUserRetrieveAPIView(APIView):
             serializer = self.serializer_class(
                 instance=custom_user,
             )
-
-            if request.user.is_authenticated and not request.user.is_superuser:
-                return Response({
-                    "login_error": "You must log out to retrieve user information.",
-                }, status=status.HTTP_401_UNAUTHORIZED)
 
             return Response(data=serializer.data, status=status.HTTP_200_OK)
 
