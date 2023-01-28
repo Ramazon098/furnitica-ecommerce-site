@@ -10,9 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 
-from apps.accounts.models import (
-    CustomUser, Otp,
-)
+from apps.accounts.models import CustomUser, Otp
 from apps.accounts.serializers import (
     ChangePasswordSerializer, SendCodeSerializer,
     VerifyOtpSerializer, ResetPasswordSerializer,
@@ -113,7 +111,7 @@ class VerifyOtpAPIView(APIView):
                 _ = Otp.objects.get(otp=otp)
                 current_site = get_current_site(request=request).domain
                 relative_link = reverse('reset-password', kwargs={'otp': otp})
-                absolute_url = 'http://' + current_site + relative_link
+                absolute_url = current_site + relative_link
 
                 return Response({
                     "verify_otp": "Execute the api request given below.",
@@ -146,8 +144,6 @@ class ResetPasswordAPIView(APIView):
 
             try:
                 otp = Otp.objects.get(otp=otp)
-                otp.otp = 30303
-                otp.save()
                 user = otp.user
                 user.set_password(request.data['new_password'])
                 user.save()
