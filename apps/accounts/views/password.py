@@ -11,14 +11,11 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from apps.accounts.models import (
-    CustomUser,
-    Otp,
+    CustomUser, Otp,
 )
 from apps.accounts.serializers import (
-    ChangePasswordSerializer,
-    SendCodeSerializer,
-    VerifyOtpSerializer,
-    ResetPasswordSerializer,
+    ChangePasswordSerializer, SendCodeSerializer,
+    VerifyOtpSerializer, ResetPasswordSerializer,
 )
 
 
@@ -49,8 +46,15 @@ class SendCodeAPIView(APIView):
     serializer_class = SendCodeSerializer
 
     def post(self, request):
-        serializer = self.serializer_class(data=request.data)
         email = request.data['email']
+        serializer = self.serializer_class(
+            data=request.data,
+        )
+
+        if request.user.is_authenticated:
+            return Response({
+                "login_error": "You must log out to reset your password.",
+            }, status=status.HTTP_401_UNAUTHORIZED)
 
         if serializer.is_valid():
             serializer.save()
@@ -92,8 +96,15 @@ class VerifyOtpAPIView(APIView):
     serializer_class = VerifyOtpSerializer
 
     def post(self, request):
-        serializer = self.serializer_class(data=request.data)
         otp = request.data['otp']
+        serializer = self.serializer_class(
+            data=request.data,
+        )
+
+        if request.user.is_authenticated:
+            return Response({
+                "login_error": "You must log out to reset your password.",
+            }, status=status.HTTP_401_UNAUTHORIZED)
 
         if serializer.is_valid():
             serializer.save()
@@ -121,7 +132,14 @@ class ResetPasswordAPIView(APIView):
     serializer_class = ResetPasswordSerializer
 
     def put(self, request, otp):
-        serializer = self.serializer_class(data=request.data)
+        serializer = self.serializer_class(
+            data=request.data,
+        )
+
+        if request.user.is_authenticated:
+            return Response({
+                "login_error": "You must log out to reset your password.",
+            }, status=status.HTTP_401_UNAUTHORIZED)
 
         if serializer.is_valid():
             serializer.save()
