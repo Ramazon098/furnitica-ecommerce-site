@@ -38,6 +38,7 @@ class ChangePasswordSerializer(serializers.Serializer):
             raise serializers.ValidationError({
                 "password_error": "Your old password was entered incorrectly. Please enter it again.",
             })
+
         return value
 
     def validate(self, attrs):
@@ -45,13 +46,16 @@ class ChangePasswordSerializer(serializers.Serializer):
             raise serializers.ValidationError({
                 "password_error": "New password fields didn't match.",
             })
+
         return attrs
 
     def save(self, **kwargs):
         password = self.validated_data['new_password']
         user = self.context['request'].user
+
         user.set_password(password)
         user.save()
+
         return user
 
 
@@ -103,6 +107,7 @@ class ResetPasswordSerializer(serializers.Serializer):
             raise serializers.ValidationError({
                 "password_error": "New password fields didn't match.",
             })
+
         return attrs
 
     def create(self, validated_data):
