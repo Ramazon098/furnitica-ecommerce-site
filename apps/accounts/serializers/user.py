@@ -61,6 +61,6 @@ class EditProfileSerializer(ModelSerializer):
                 address.save()
             else:
                 setattr(instance, attr, value)
-
         instance.save()
+
         return instance
