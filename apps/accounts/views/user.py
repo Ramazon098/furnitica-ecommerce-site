@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from apps.accounts.models import CustomUser
+from apps.accounts.permissions import NotIsAuthenticated
 from apps.accounts.serializers import (
     CustomUserSerializer, EditProfileSerializer,
 )
@@ -12,6 +13,7 @@ from apps.accounts.serializers import (
 # Create your views here.
 
 class CustomUserAPIView(APIView):
+    permission_classes = [NotIsAuthenticated,]
     serializer_class = CustomUserSerializer
 
     def get(self, request):
@@ -20,12 +22,6 @@ class CustomUserAPIView(APIView):
             instance=custom_users,
             many=True,
         )
-
-        if request.user.is_authenticated and not request.user.is_superuser:
-            return Response({
-                "login_error": "You must log out to get a list of users.",
-            }, status=status.HTTP_401_UNAUTHORIZED)
-
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
