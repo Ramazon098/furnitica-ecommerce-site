@@ -50,6 +50,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({
                 "password_error": "Password fields didn't match.",
             })
+
         return attrs
 
     def create(self, validated_data):
@@ -61,6 +62,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         user.set_password(validated_data['password1'])
         user.save()
+
         return user
 
 
@@ -91,4 +93,5 @@ class LoginSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({
                 "user_error": "The email or password was entered incorrectly.",
             })
+
         return attrs

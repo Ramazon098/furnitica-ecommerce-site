@@ -4,9 +4,10 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from apps.accounts.models import CustomUser
-from apps.accounts.permissions import NotIsAuthenticated, NotIsAuthenticatedAndIsAdminSuper
+from apps.accounts.permissions import NotIsAuthenticatedAndIsAdminSuper
 from apps.accounts.serializers import (
-    CustomUserSerializer, EditProfileSerializer,
+    CustomUserSerializer,
+    EditProfileSerializer,
 )
 
 
@@ -18,10 +19,7 @@ class CustomUserAPIView(APIView):
 
     def get(self, request):
         custom_users = CustomUser.objects.all()
-        serializer = self.serializer_class(
-            instance=custom_users,
-            many=True,
-        )
+        serializer = self.serializer_class(instance=custom_users, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
@@ -49,9 +47,7 @@ class EditProfileAPIView(APIView):
     serializer_class = EditProfileSerializer
 
     def get(self, request):
-        serializer = self.serializer_class(
-            instance=request.user,
-        )
+        serializer = self.serializer_class(instance=request.user)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request):
