@@ -66,7 +66,7 @@ class EditProfileAPIView(APIView):
         if serializer.is_valid():
             serializer.save()
 
-            return Response(data=serializer.data, status=status.HTTP_205_RESET_CONTENT)
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request):
@@ -79,5 +79,5 @@ class EditProfileAPIView(APIView):
         if serializer.is_valid():
             serializer.save()
 
-            return Response(data=serializer.data, status=status.HTTP_206_PARTIAL_CONTENT)
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
