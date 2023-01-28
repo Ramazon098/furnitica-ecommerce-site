@@ -12,8 +12,10 @@ from rest_framework import status
 
 from apps.accounts.models import CustomUser, Otp
 from apps.accounts.serializers import (
-    ChangePasswordSerializer, SendCodeSerializer,
-    VerifyOtpSerializer, ResetPasswordSerializer,
+    ChangePasswordSerializer,
+    SendCodeSerializer,
+    VerifyOtpSerializer,
+    ResetPasswordSerializer,
 )
 
 
