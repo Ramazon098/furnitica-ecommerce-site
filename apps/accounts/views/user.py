@@ -13,7 +13,7 @@ from apps.accounts.serializers import (
 # Create your views here.
 
 class CustomUserAPIView(APIView):
-    permission_classes = [NotIsAuthenticated,]
+    permission_classes = [NotIsAuthenticatedAndIsAdminSuper,]
     serializer_class = CustomUserSerializer
 
     def get(self, request):
@@ -26,7 +26,7 @@ class CustomUserAPIView(APIView):
 
 
 class CustomUserRetrieveAPIView(APIView):
-    permission_classes = [NotIsAuthenticated,]
+    permission_classes = [NotIsAuthenticatedAndIsAdminSuper,]
     serializer_class = CustomUserSerializer
 
     def get(self, request, pk):
