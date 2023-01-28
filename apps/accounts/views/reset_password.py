@@ -51,7 +51,7 @@ class SendCodeAPIView(APIView):
 
                 return Response({
                     "send_code": "The code has been successfully sent to your email.",
-                }, status=status.HTTP_201_CREATED)
+                }, status=status.HTTP_200_OK)
 
             except CustomUser.DoesNotExist:
                 return Response({
@@ -101,15 +101,15 @@ class ResetPasswordAPIView(APIView):
 
             try:
                 otp = Otp.objects.get(otp=otp)
-                otp.user.set_password(request.data['new_password'])
-                otp.user.save()
-
-                otp.delete()
+                otp.otp = 30303
                 otp.save()
+                user = otp.user
+                user.set_password(request.data['new_password'])
+                user.save()
 
                 return Response({
                     "password_success": "Your password has been successfully reset.",
-                }, status=status.HTTP_205_RESET_CONTENT)
+                }, status=status.HTTP_200_OK)
 
             except Otp.DoesNotExist:
                 return Response({
