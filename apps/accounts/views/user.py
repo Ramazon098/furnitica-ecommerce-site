@@ -6,8 +6,7 @@ from rest_framework import status
 from apps.accounts.models import CustomUser
 from apps.accounts.permissions import NotIsAuthenticatedAndIsAdminSuper
 from apps.accounts.serializers import (
-    CustomUserSerializer,
-    EditProfileSerializer,
+    CustomUserSerializer, EditProfileSerializer
 )
 
 
@@ -60,6 +59,7 @@ class EditProfileAPIView(APIView):
             serializer.save()
 
             return Response(data=serializer.data, status=status.HTTP_200_OK)
+
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request):
@@ -73,4 +73,5 @@ class EditProfileAPIView(APIView):
             serializer.save()
 
             return Response(data=serializer.data, status=status.HTTP_200_OK)
+
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
