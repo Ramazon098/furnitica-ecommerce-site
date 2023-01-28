@@ -1,17 +1,16 @@
-from apps.accounts.serializers.custom_user import (
+from apps.accounts.serializers.user import (
     AddressSerializer,
     CustomUserSerializer,
+    EditProfileSerializer,
 )
 
-from apps.accounts.serializers.register import RegisterSerializer
+from apps.accounts.serializers.auth import (
+    RegisterSerializer,
+    LoginSerializer,
+)
 
-from apps.accounts.serializers.login import LoginSerializer
-
-from apps.accounts.serializers.edit_profile import EditProfileSerializer
-
-from apps.accounts.serializers.change_password import ChangePasswordSerializer
-
-from apps.accounts.serializers.reset_password import (
+from apps.accounts.serializers.password import (
+    ChangePasswordSerializer,
     SendCodeSerializer,
     VerifyOtpSerializer,
     ResetPasswordSerializer,
@@ -21,9 +20,9 @@ from apps.accounts.serializers.reset_password import (
 __all__ = [
     "AddressSerializer",
     "CustomUserSerializer",
+    "EditProfileSerializer",
     "RegisterSerializer",
     "LoginSerializer",
-    "EditProfileSerializer",
     "ChangePasswordSerializer",
     "SendCodeSerializer",
     "VerifyOtpSerializer",
