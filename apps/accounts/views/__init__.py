@@ -1,19 +1,17 @@
-from apps.accounts.views.custom_user import (
+from apps.accounts.views.user import (
     CustomUserAPIView,
     CustomUserRetrieveAPIView,
+    EditProfileAPIView,
 )
 
-from apps.accounts.views.register import RegisterAPIView
+from apps.accounts.views.auth import (
+    RegisterAPIView,
+    LoginAPIView,
+    LogoutAPIView,
+)
 
-from apps.accounts.views.login import LoginAPIView
-
-from apps.accounts.views.logout import LogoutAPIView
-
-from apps.accounts.views.edit_profile import EditProfileAPIView
-
-from apps.accounts.views.change_password import ChangePasswordAPIView
-
-from apps.accounts.views.reset_password import (
+from apps.accounts.views.password import (
+    ChangePasswordAPIView,
     SendCodeAPIView,
     VerifyOtpAPIView,
     ResetPasswordAPIView,
@@ -23,10 +21,10 @@ from apps.accounts.views.reset_password import (
 __all__ = [
     "CustomUserAPIView",
     "CustomUserRetrieveAPIView",
+    "EditProfileAPIView",
     "RegisterAPIView",
     "LoginAPIView",
     "LogoutAPIView",
-    "EditProfileAPIView",
     "ChangePasswordAPIView",
     "SendCodeAPIView",
     "VerifyOtpAPIView",
