@@ -1,8 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
-from django.contrib.auth.password_validation import validate_password
 from django.core.validators import RegexValidator
+from django.contrib.auth.password_validation import validate_password
 
 from phonenumber_field.modelfields import PhoneNumberField
 from apps.accounts.managers import CustomUserManager
