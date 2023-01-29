@@ -18,7 +18,11 @@ class CustomUserAPIView(APIView):
 
     def get(self, request):
         custom_users = CustomUser.objects.all()
-        serializer = self.serializer_class(instance=custom_users, many=True)
+        serializer = self.serializer_class(
+            instance=custom_users,
+            many=True,
+        )
+
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
@@ -34,7 +38,6 @@ class CustomUserRetrieveAPIView(APIView):
             )
 
             return Response(data=serializer.data, status=status.HTTP_200_OK)
-
         except CustomUser.DoesNotExist:
             return Response({
                 "not_found": "The requested user was not found.",
@@ -46,7 +49,10 @@ class EditProfileAPIView(APIView):
     serializer_class = EditProfileSerializer
 
     def get(self, request):
-        serializer = self.serializer_class(instance=request.user)
+        serializer = self.serializer_class(
+            instance=request.user,
+        )
+
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request):
