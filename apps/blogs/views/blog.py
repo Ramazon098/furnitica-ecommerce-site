@@ -29,11 +29,6 @@ class BlogPostAPIView(APIView):
             data=request.data,
         )
 
-        # if not request.user.is_authenticated:
-        #     return Response({
-        #         'blog_error': 'You want to create a blog, you need to register.',
-        #     }, status=status.HTTP_401_UNAUTHORIZED)
-
         if serializer.is_valid():
             serializer.save()
 
