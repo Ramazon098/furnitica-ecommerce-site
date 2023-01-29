@@ -24,7 +24,7 @@ class Blog(models.Model):
         verbose_name='Blog Body',
     )
 
-    image = models.FileField(
+    images = models.FileField(
         upload_to='images/',
         validators=[validate_image_extension],
         verbose_name='Blog Image',
