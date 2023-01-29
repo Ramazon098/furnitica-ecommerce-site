@@ -104,22 +104,29 @@ class VerifyOtpAPIView(APIView):
             try:
                 otp = Otp.objects.get(otp=otp)
                 user = otp.user
-                hotp = HOTP(user.email)
-
-                if hotp.verify(otp.otp, user.id):
-                    current_site = get_current_site(request=request).domain
-                    relative_link = reverse('reset-password', kwargs={'pk': user.id})
-                    absolute_url = current_site + relative_link
-                else:
-                    pass
+                current_site = get_current_site(request=request).domain
+                relative_link = reverse('reset-password', kwargs={'pk': user.id})
+                absolute_url = current_site + relative_link
 
                 return Response({
                     "verify_otp": "Execute the api request given below.",
                     "api": absolute_url,
                 }, status=status.HTTP_200_OK)
-            
+
             except Otp.MultipleObjectsReturned:
-                pass
+                for otp_object in Otp.objects.filter(otp=otp):
+                    user = otp_object.user
+                    hotp = HOTP(user.email)
+
+                    if hotp.verify(otp, user.id):
+                        current_site = get_current_site(request=request).domain
+                        relative_link = reverse('reset-password', kwargs={'pk': user.id})
+                        absolute_url = current_site + relative_link
+
+                        return Response({
+                            "verify_otp": "Execute the api request given below.",
+                            "api": absolute_url,
+                        }, status=status.HTTP_200_OK)
 
             except Otp.DoesNotExist:
                 return Response({
