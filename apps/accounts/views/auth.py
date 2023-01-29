@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from knox.auth import AuthToken
+from apps.accounts.permissions import NotIsAuthenticated
 from apps.accounts.serializers import (
     RegisterSerializer, LoginSerializer,
 )
@@ -16,17 +17,13 @@ from apps.accounts.serializers import (
 # Create your views here.
 
 class RegisterAPIView(APIView):
+    permission_classes = [NotIsAuthenticated,]
     serializer_class = RegisterSerializer
 
     def post(self, request):
         serializer = self.serializer_class(
             data=request.data,
         )
-
-        if request.user.is_authenticated:
-            return Response({
-                "login_error": "To register from the system, you must first log out.",
-            }, status=status.HTTP_401_UNAUTHORIZED)
 
         if serializer.is_valid():
             user = serializer.save()
@@ -41,6 +38,7 @@ class RegisterAPIView(APIView):
 
 
 class LoginAPIView(APIView):
+    permission_classes = [NotIsAuthenticated,]
     serializer_class = LoginSerializer
 
     def post(self, request):
@@ -48,11 +46,6 @@ class LoginAPIView(APIView):
             data=request.data,
             context={'request': request},
         )
-
-        if request.user.is_authenticated:
-            return Response({
-                "login_error": "You must log out before logging in.",
-            }, status=status.HTTP_401_UNAUTHORIZED)
 
         if serializer.is_valid():
             user = authenticate(
