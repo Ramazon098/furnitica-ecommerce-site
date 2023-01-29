@@ -9,9 +9,9 @@ class NotOrIsAuthenticated(BasePermission):
     def has_permission(self, request, view):
         if request.method == 'GET':
             return bool(
-                request.user and not not request.user.is_authenticated,
+                request.user and not request.user.is_authenticated,
             )
         else:
             return bool(
-                request.user and not request.user.is_authenticated,
+                request.user and request.user.is_authenticated,
             )
