@@ -4,6 +4,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.core.mail import send_mail
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
+from django.conf import settings
 
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
@@ -73,7 +74,7 @@ class SendCodeAPIView(APIView):
                 send_mail(
                     "Your account verification email.",
                     f"Your otp is: {random_otp}.",
-                    'ramazon0619@gmail.com',
+                    settings.EMAIL_HOST_USER,
                     [email],
                 )
 
