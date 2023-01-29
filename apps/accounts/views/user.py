@@ -6,7 +6,7 @@ from rest_framework import status
 from apps.accounts.models import CustomUser
 from apps.accounts.permissions import NotIsAuthenticatedAndIsAdminSuper
 from apps.accounts.serializers import (
-    CustomUserSerializer, EditProfileSerializer
+    CustomUserSerializer, EditProfileSerializer,
 )
 
 
