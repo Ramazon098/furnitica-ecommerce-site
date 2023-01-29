@@ -5,14 +5,12 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from apps.blogs.models import Blog
-from apps.blogs.permissions import NotOrIsAuthenticated
 from apps.blogs.serializers import BlogSerializer
 
 
 # Create your views here.
 
 class BlogPostAPIView(APIView):
-    permission_classes = [NotOrIsAuthenticated,]
     serializer_class = BlogSerializer
 
     def get(self, request):
@@ -32,20 +30,24 @@ class BlogPostAPIView(APIView):
         if serializer.is_valid():
             serializer.save()
 
+            if not request.user.is_authenticated:
+                return Response({
+                    'blog_error': 'You want to create a blog, you need to register.',
+                }, status=status.HTTP_401_UNAUTHORIZED)
+
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class BlogDetailAPIView(APIView):
-    permission_classes = [NotOrIsAuthenticated,]
     serializer_class = BlogSerializer
 
     def get_object(self, pk):
         try:
             return Blog.objects.get(pk=pk)
         except Blog.DoesNotExist:
-            raise Http404
+            raise Http404("The requested user was not found.")
 
     def get(self, request, pk):
         blog = self.get_object(pk)
@@ -63,6 +65,11 @@ class BlogDetailAPIView(APIView):
         if serializer.is_valid():
             serializer.save()
 
+            if not request.user.is_authenticated:
+                return Response({
+                    'blog_error': 'You want to create a blog, you need to register.',
+                }, status=status.HTTP_401_UNAUTHORIZED)
+
             return Response(data=serializer.data, status=status.HTTP_200_OK)
 
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -78,6 +85,11 @@ class BlogDetailAPIView(APIView):
         if serializer.is_valid():
             serializer.save()
 
+            if not request.user.is_authenticated:
+                return Response({
+                    'blog_error': 'You want to create a blog, you need to register.',
+                }, status=status.HTTP_401_UNAUTHORIZED)
+
             return Response(data=serializer.data, status=status.HTTP_200_OK)
 
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -85,4 +97,10 @@ class BlogDetailAPIView(APIView):
     def delete(self, request, pk):
         blog = self.get_object(pk)
         blog.delete()
+
+        if not request.user.is_authenticated:
+            return Response({
+                'blog_error': 'You want to create a blog, you need to register.',
+            }, status=status.HTTP_401_UNAUTHORIZED)
+
         return Response(status=status.HTTP_204_NO_CONTENT)
