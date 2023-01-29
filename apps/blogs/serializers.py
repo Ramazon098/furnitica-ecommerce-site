@@ -20,7 +20,7 @@ class BlogSerializer(serializers.ModelSerializer):
         ]
 
 
-class CommentSerializers(serializers.ModelSerializer):
+class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = [
