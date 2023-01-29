@@ -26,6 +26,7 @@ class CustomUserSerializer(ModelSerializer):
             'email',
             'my_name',
             'phone_number',
+            'image',
             'address',
             'is_staff',
             'is_superuser',
@@ -44,6 +45,7 @@ class EditProfileSerializer(ModelSerializer):
             'first_name',
             'last_name',
             'phone_number',
+            'image',
             'address',
         ]
 
