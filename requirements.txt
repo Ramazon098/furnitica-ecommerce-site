@@ -7,4 +7,5 @@ django-phonenumber-field==7.0.0
 phonenumbers==8.13.1
 Pillow==9.3.0
 django-rest-knox==4.2.0
+pyotp==2.8.0
 environs==9.5.0
