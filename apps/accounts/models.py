@@ -36,6 +36,12 @@ class CustomUser(AbstractUser):
         verbose_name="Mobile Number",
     )
 
+    image = models.ImageField(
+        upload_to='images/',
+        null=True,
+        verbose_name='Custom User Image',
+    )
+
     password = models.CharField(
         max_length=128,
         validators=[validate_password],
@@ -108,6 +114,11 @@ class Otp(models.Model):
         max_length=6,
         validators=[RegexValidator('^[0-9]{6}$', ('Invalid postal code.'))],
         verbose_name="One-time password",
+    )
+
+    secret_key = models.CharField(
+        max_length=40,
+        verbose_name='Random Base 32',
     )
 
     def __str__(self):
