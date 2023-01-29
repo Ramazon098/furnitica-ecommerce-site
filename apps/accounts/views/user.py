@@ -38,6 +38,7 @@ class CustomUserRetrieveAPIView(APIView):
             )
 
             return Response(data=serializer.data, status=status.HTTP_200_OK)
+
         except CustomUser.DoesNotExist:
             return Response({
                 "not_found": "The requested user was not found.",

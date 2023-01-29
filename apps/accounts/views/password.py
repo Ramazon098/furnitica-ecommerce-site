@@ -11,6 +11,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from apps.accounts.models import CustomUser, Otp
+from apps.accounts.permissions import NotIsAuthenticated
 from apps.accounts.serializers import (
     ChangePasswordSerializer,
     SendCodeSerializer,
@@ -37,12 +38,13 @@ class ChangePasswordAPIView(APIView):
 
             return Response({
                 "password_success": "Your password has been successfully changed.",
-            }, status=status.HTTP_205_RESET_CONTENT)
+            }, status=status.HTTP_200_OK)
 
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class SendCodeAPIView(APIView):
+    permission_classes = [NotIsAuthenticated,]
     serializer_class = SendCodeSerializer
 
     def post(self, request):
@@ -50,11 +52,6 @@ class SendCodeAPIView(APIView):
         serializer = self.serializer_class(
             data=request.data,
         )
-
-        if request.user.is_authenticated:
-            return Response({
-                "login_error": "You must log out to reset your password.",
-            }, status=status.HTTP_401_UNAUTHORIZED)
 
         if serializer.is_valid():
             serializer.save()
@@ -93,6 +90,7 @@ class SendCodeAPIView(APIView):
 
 
 class VerifyOtpAPIView(APIView):
+    permission_classes = [NotIsAuthenticated,]
     serializer_class = VerifyOtpSerializer
 
     def post(self, request):
@@ -100,11 +98,6 @@ class VerifyOtpAPIView(APIView):
         serializer = self.serializer_class(
             data=request.data,
         )
-
-        if request.user.is_authenticated:
-            return Response({
-                "login_error": "You must log out to reset your password.",
-            }, status=status.HTTP_401_UNAUTHORIZED)
 
         if serializer.is_valid():
             serializer.save()
@@ -129,17 +122,13 @@ class VerifyOtpAPIView(APIView):
 
 
 class ResetPasswordAPIView(APIView):
+    permission_classes = [NotIsAuthenticated,]
     serializer_class = ResetPasswordSerializer
 
     def put(self, request, otp):
         serializer = self.serializer_class(
             data=request.data,
         )
-
-        if request.user.is_authenticated:
-            return Response({
-                "login_error": "You must log out to reset your password.",
-            }, status=status.HTTP_401_UNAUTHORIZED)
 
         if serializer.is_valid():
             serializer.save()
