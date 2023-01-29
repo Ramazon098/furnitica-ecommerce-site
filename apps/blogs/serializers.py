@@ -10,9 +10,13 @@ class BlogSerializer(serializers.ModelSerializer):
         model = Blog
         fields = [
             'id',
+            'author',
             'title', 
             'body',
-            'image',
+            'images',
+            'comments',
+            'created_at',
+            'updated_at',
         ]
 
 
@@ -21,8 +25,12 @@ class CommentSerializers(serializers.ModelSerializer):
         model = Comment
         fields = [
             'id',
+            'author',
+            'blog',
             'name',
             'email',
             'website',
             'message',
+            'created_at',
+            'updated_at',
         ]
