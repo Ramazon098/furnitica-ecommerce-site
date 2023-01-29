@@ -12,7 +12,7 @@ from apps.blogs.serializers import BlogSerializer
 # Create your views here.
 
 class BlogPostAPIView(APIView):
-    permission_classes = [IsAuthenticated,]
+    # permission_classes = [IsAuthenticated,]
     serializer_class = BlogSerializer
 
     def get(self, request):
