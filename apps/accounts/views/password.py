@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 
-from pyotp import HOTP
+import pyotp
 
 from apps.accounts.models import CustomUser, Otp
 from apps.accounts.permissions import NotIsAuthenticated
@@ -59,7 +59,8 @@ class SendCodeAPIView(APIView):
 
             try:
                 user = CustomUser.objects.get(email=email)
-                hotp = HOTP(email)
+                secret_key = pyotp.random_base32()
+                hotp = pyotp.HOTP(secret_key)
                 random_otp = hotp.at(user.id)
 
                 try:
@@ -116,7 +117,7 @@ class VerifyOtpAPIView(APIView):
             except Otp.MultipleObjectsReturned:
                 for otp_object in Otp.objects.filter(otp=otp):
                     user = otp_object.user
-                    hotp = HOTP(user.email)
+                    hotp = pyotp.HOTP(user.email)
 
                     if hotp.verify(otp, user.id):
                         current_site = get_current_site(request=request).domain
