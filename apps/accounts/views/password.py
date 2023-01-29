@@ -66,9 +66,14 @@ class SendCodeAPIView(APIView):
                 try:
                     otp_user = Otp.objects.get(user=user)
                     otp_user.otp = random_otp
+                    otp_user.secret_key = secret_key
                     otp_user.save()
                 except Otp.DoesNotExist:
-                    _ = Otp.objects.create(user=user, otp=random_otp)
+                    _ = Otp.objects.create(
+                        user=user,
+                        otp=random_otp,
+                        secret_key=secret_key,
+                    )
 
                 send_mail(
                     "Your account verification email.",
@@ -117,7 +122,7 @@ class VerifyOtpAPIView(APIView):
             except Otp.MultipleObjectsReturned:
                 for otp_object in Otp.objects.filter(otp=otp):
                     user = otp_object.user
-                    hotp = pyotp.HOTP(user.email)
+                    hotp = pyotp.HOTP(otp_object.secret_key)
 
                     if hotp.verify(otp, user.id):
                         current_site = get_current_site(request=request).domain
