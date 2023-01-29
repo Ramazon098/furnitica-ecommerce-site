@@ -1,8 +1,7 @@
 from rest_framework.serializers import ModelSerializer
 
 from apps.accounts.models import (
-    CustomUser,
-    Address,
+    CustomUser, Address,
 )
 
 
