@@ -1,5 +1,3 @@
-from random import randint
-
 from django.contrib.auth import update_session_auth_hash
 from django.core.mail import send_mail
 from django.contrib.sites.shortcuts import get_current_site
@@ -10,6 +8,8 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
+
+from pyotp import HOTP
 
 from apps.accounts.models import CustomUser, Otp
 from apps.accounts.permissions import NotIsAuthenticated
@@ -59,16 +59,14 @@ class SendCodeAPIView(APIView):
 
             try:
                 user = CustomUser.objects.get(email=email)
-                random_otp = randint(100000, 999999)
+                hotp = HOTP(email)
+                random_otp = hotp.at(user.id)
 
-                while Otp.objects.filter(otp=random_otp).exists():
-                    random_otp = randint(100000, 999999)
-
-                if Otp.objects.filter(user=user).exists():
+                try:
                     otp_user = Otp.objects.get(user=user)
                     otp_user.otp = random_otp
                     otp_user.save()
-                else:
+                except Otp.DoesNotExist:
                     _ = Otp.objects.create(user=user, otp=random_otp)
 
                 send_mail(
@@ -104,15 +102,24 @@ class VerifyOtpAPIView(APIView):
             serializer.save()
 
             try:
-                _ = Otp.objects.get(otp=otp)
-                current_site = get_current_site(request=request).domain
-                relative_link = reverse('reset-password', kwargs={'otp': otp})
-                absolute_url = current_site + relative_link
+                otp = Otp.objects.get(otp=otp)
+                user = otp.user
+                hotp = HOTP(user.email)
+
+                if hotp.verify(otp.otp, user.id):
+                    current_site = get_current_site(request=request).domain
+                    relative_link = reverse('reset-password', kwargs={'pk': user.id})
+                    absolute_url = current_site + relative_link
+                else:
+                    pass
 
                 return Response({
                     "verify_otp": "Execute the api request given below.",
                     "api": absolute_url,
                 }, status=status.HTTP_200_OK)
+            
+            except Otp.MultipleObjectsReturned:
+                pass
 
             except Otp.DoesNotExist:
                 return Response({
@@ -126,7 +133,7 @@ class ResetPasswordAPIView(APIView):
     permission_classes = [NotIsAuthenticated,]
     serializer_class = ResetPasswordSerializer
 
-    def put(self, request, otp):
+    def put(self, request, pk):
         serializer = self.serializer_class(
             data=request.data,
         )
@@ -135,8 +142,7 @@ class ResetPasswordAPIView(APIView):
             serializer.save()
 
             try:
-                otp = Otp.objects.get(otp=otp)
-                user = otp.user
+                user = CustomUser.objects.get(pk=pk)
                 user.set_password(request.data['new_password'])
                 user.save()
 
