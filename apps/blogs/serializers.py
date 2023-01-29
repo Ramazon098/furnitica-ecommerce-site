@@ -8,4 +8,21 @@ from apps.blogs.models import Blog, Comment
 class BlogSerializer(serializers.ModelSerializer):
     class Meta:
         model = Blog
-        fields = []
+        fields = [
+            'id',
+            'title', 
+            'body',
+            'image',
+        ]
+
+
+class CommentSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = [
+            'id',
+            'name',
+            'email',
+            'website',
+            'message',
+        ]
