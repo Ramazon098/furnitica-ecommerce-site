@@ -3,7 +3,7 @@ from rest_framework import serializers
 from apps.blogs.models import Blog, Comment
 
 
-# Create your models here.
+# Create your serializers here.
 
 class BlogSerializer(serializers.ModelSerializer):
     class Meta:
