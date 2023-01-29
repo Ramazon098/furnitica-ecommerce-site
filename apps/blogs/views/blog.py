@@ -12,7 +12,6 @@ from apps.blogs.serializers import BlogSerializer
 # Create your views here.
 
 class BlogPostAPIView(APIView):
-    # permission_classes = [IsAuthenticated,]
     serializer_class = BlogSerializer
 
     def get(self, request):
@@ -28,6 +27,11 @@ class BlogPostAPIView(APIView):
         serializer = self.serializer_class(
             data=request.data,
         )
+
+        if not request.user.is_authenticated:
+            return Response({
+                'blog_error': 'You want to create a blog, you need to register.',
+            }, status=status.HTTP_401_UNAUTHORIZED)
 
         if serializer.is_valid():
             serializer.save()
