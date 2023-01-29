@@ -1,17 +1,18 @@
 from django.http import Http404
 
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 
 from apps.blogs.models import Blog
+from apps.blogs.permissions import NotOrIsAuthenticated
 from apps.blogs.serializers import BlogSerializer
 
 
 # Create your views here.
 
 class BlogPostAPIView(APIView):
+    permission_classes = [NotOrIsAuthenticated,]
     serializer_class = BlogSerializer
 
     def get(self, request):
@@ -28,10 +29,10 @@ class BlogPostAPIView(APIView):
             data=request.data,
         )
 
-        if not request.user.is_authenticated:
-            return Response({
-                'blog_error': 'You want to create a blog, you need to register.',
-            }, status=status.HTTP_401_UNAUTHORIZED)
+        # if not request.user.is_authenticated:
+        #     return Response({
+        #         'blog_error': 'You want to create a blog, you need to register.',
+        #     }, status=status.HTTP_401_UNAUTHORIZED)
 
         if serializer.is_valid():
             serializer.save()
@@ -42,7 +43,7 @@ class BlogPostAPIView(APIView):
 
 
 class BlogDetailAPIView(APIView):
-    permission_classes = [IsAuthenticated,]
+    permission_classes = [NotOrIsAuthenticated,]
     serializer_class = BlogSerializer
 
     def get_object(self, pk):
