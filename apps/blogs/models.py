@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
-from apps.validators import validate_image_extension
 CustomUser = get_user_model()
 
 
@@ -26,7 +25,6 @@ class Blog(models.Model):
 
     images = models.FileField(
         upload_to='images/',
-        validators=[validate_image_extension],
         verbose_name='Blog Image',
     )
 
