@@ -96,12 +96,12 @@ class BlogDetailAPIView(APIView):
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
-        blog = self.get_object(pk)
-        blog.delete()
-
         if not request.user.is_authenticated:
             return Response({
                 'blog_error': 'You want to create a blog, you need to register.',
             }, status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            blog = self.get_object(pk)
+            blog.delete()
 
-        return Response(status=status.HTTP_204_NO_CONTENT)
+            return Response(status=status.HTTP_204_NO_CONTENT)
