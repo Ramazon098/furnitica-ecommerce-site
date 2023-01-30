@@ -5,20 +5,6 @@ from apps.blogs.models import Blog, Comment
 
 # Create your serializers here.
 
-class BlogSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Blog
-        fields = [
-            'id',
-            'author',
-            'title', 
-            'body',
-            'images',
-            'created_at',
-            'updated_at',
-        ]
-
-
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
@@ -30,6 +16,23 @@ class CommentSerializer(serializers.ModelSerializer):
             'email',
             'website',
             'message',
+            'created_at',
+            'updated_at',
+        ]
+
+
+class BlogSerializer(serializers.ModelSerializer):
+    blog_comment = CommentSerializer(many=True)
+
+    class Meta:
+        model = Blog
+        fields = [
+            'id',
+            'author',
+            'title', 
+            'body',
+            'images',
+            'blog_comment',
             'created_at',
             'updated_at',
         ]
