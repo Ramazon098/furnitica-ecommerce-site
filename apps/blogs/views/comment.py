@@ -96,12 +96,12 @@ class CommentDetailAPIView(APIView):
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
-        comment = self.get_object(pk)
-        comment.delete()
-
         if not request.user.is_authenticated:
             return Response({
                 'comment_error': 'You want to create a blog, you need to register.',
             }, status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            comment = self.get_object(pk)
+            comment.delete()
 
-        return Response(status=status.HTTP_204_NO_CONTENT)
+            return Response(status=status.HTTP_204_NO_CONTENT)
