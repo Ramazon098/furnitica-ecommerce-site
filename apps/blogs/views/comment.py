@@ -46,11 +46,11 @@ class CommentDetailAPIView(APIView):
         try:
             return Comment.objects.get(pk=pk)
         except Comment.DoesNotExist:
-            raise NotFound("The requested user was not found.")
+            raise NotFound("The requested comment could not be found.")
 
     def get(self, request, pk):
-        blog = self.get_object(pk)
-        serializer = self.serializer_class(instance=blog)
+        comment = self.get_object(pk)
+        serializer = self.serializer_class(instance=comment)
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 

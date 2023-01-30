@@ -50,7 +50,9 @@ class BlogDetailAPIView(APIView):
 
     def get(self, request, pk):
         blog = self.get_object(pk)
-        serializer = self.serializer_class(instance=blog)
+        serializer = self.serializer_class(
+            instance=blog,
+        )
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
