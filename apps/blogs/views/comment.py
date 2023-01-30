@@ -31,7 +31,7 @@ class CommentAPIView(APIView):
 
             if not request.user.is_authenticated:
                 return Response({
-                    'blog_error': 'You want to create a blog, you need to register.',
+                    'comment_error': 'You want to create a blog, you need to register.',
                 }, status=status.HTTP_401_UNAUTHORIZED)
 
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
@@ -50,14 +50,16 @@ class CommentDetailAPIView(APIView):
 
     def get(self, request, pk):
         comment = self.get_object(pk)
-        serializer = self.serializer_class(instance=comment)
+        serializer = self.serializer_class(
+            instance=comment,
+        )
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request, pk):
-        blog = self.get_object(pk)
+        comment = self.get_object(pk)
         serializer = self.serializer_class(
-            instance=blog,
+            instance=comment,
             data=request.data,
         )
 
@@ -66,7 +68,7 @@ class CommentDetailAPIView(APIView):
 
             if not request.user.is_authenticated:
                 return Response({
-                    'blog_error': 'You want to create a blog, you need to register.',
+                    'comment_error': 'You want to create a blog, you need to register.',
                 }, status=status.HTTP_401_UNAUTHORIZED)
 
             return Response(data=serializer.data, status=status.HTTP_200_OK)
@@ -74,9 +76,9 @@ class CommentDetailAPIView(APIView):
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, pk):
-        blog = self.get_object(pk)
+        comment = self.get_object(pk)
         serializer = self.serializer_class(
-            instance=blog,
+            instance=comment,
             data=request.data,
             partial=True,
         )
@@ -86,7 +88,7 @@ class CommentDetailAPIView(APIView):
 
             if not request.user.is_authenticated:
                 return Response({
-                    'blog_error': 'You want to create a blog, you need to register.',
+                    'comment_error': 'You want to create a blog, you need to register.',
                 }, status=status.HTTP_401_UNAUTHORIZED)
 
             return Response(data=serializer.data, status=status.HTTP_200_OK)
@@ -94,12 +96,12 @@ class CommentDetailAPIView(APIView):
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
-        blog = self.get_object(pk)
-        blog.delete()
+        comment = self.get_object(pk)
+        comment.delete()
 
         if not request.user.is_authenticated:
             return Response({
-                'blog_error': 'You want to create a blog, you need to register.',
+                'comment_error': 'You want to create a blog, you need to register.',
             }, status=status.HTTP_401_UNAUTHORIZED)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
