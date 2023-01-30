@@ -14,7 +14,6 @@ class BlogSerializer(serializers.ModelSerializer):
             'title', 
             'body',
             'images',
-            'comments',
             'created_at',
             'updated_at',
         ]
