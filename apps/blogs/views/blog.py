@@ -1,7 +1,6 @@
-from django.http import Http404
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.exceptions import NotFound
 from rest_framework import status
 
 from apps.blogs.models import Blog
@@ -47,7 +46,7 @@ class BlogDetailAPIView(APIView):
         try:
             return Blog.objects.get(pk=pk)
         except Blog.DoesNotExist:
-            raise Http404("The requested user was not found.")
+            raise NotFound("The requested user was not found.")
 
     def get(self, request, pk):
         blog = self.get_object(pk)
