@@ -22,7 +22,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class BlogSerializer(serializers.ModelSerializer):
-    blog_comment = CommentSerializer(many=True)
+    blog_comment = CommentSerializer(read_only=True, many=True)
 
     class Meta:
         model = Blog
