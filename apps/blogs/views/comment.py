@@ -26,13 +26,13 @@ class CommentAPIView(APIView):
             data=request.data,
         )
 
+        if not request.user.is_authenticated:
+            return Response({
+                'comment_error': 'You want to create a blog, you need to register.',
+            }, status=status.HTTP_401_UNAUTHORIZED)
+
         if serializer.is_valid():
             serializer.save()
-
-            if not request.user.is_authenticated:
-                return Response({
-                    'comment_error': 'You want to create a blog, you need to register.',
-                }, status=status.HTTP_401_UNAUTHORIZED)
 
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 
@@ -63,13 +63,13 @@ class CommentDetailAPIView(APIView):
             data=request.data,
         )
 
+        if not request.user.is_authenticated:
+            return Response({
+                'comment_error': 'You want to create a blog, you need to register.',
+            }, status=status.HTTP_401_UNAUTHORIZED)
+
         if serializer.is_valid():
             serializer.save()
-
-            if not request.user.is_authenticated:
-                return Response({
-                    'comment_error': 'You want to create a blog, you need to register.',
-                }, status=status.HTTP_401_UNAUTHORIZED)
 
             return Response(data=serializer.data, status=status.HTTP_200_OK)
 
@@ -83,13 +83,13 @@ class CommentDetailAPIView(APIView):
             partial=True,
         )
 
+        if not request.user.is_authenticated:
+            return Response({
+                'comment_error': 'You want to create a blog, you need to register.',
+            }, status=status.HTTP_401_UNAUTHORIZED)
+
         if serializer.is_valid():
             serializer.save()
-
-            if not request.user.is_authenticated:
-                return Response({
-                    'comment_error': 'You want to create a blog, you need to register.',
-                }, status=status.HTTP_401_UNAUTHORIZED)
 
             return Response(data=serializer.data, status=status.HTTP_200_OK)
 
