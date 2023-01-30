@@ -3,8 +3,15 @@ from apps.blogs.views.blog import (
     BlogDetailAPIView,
 )
 
+from apps.blogs.views.comment import (
+    CommentAPIView,
+    CommentDetailAPIView,
+)
+
 
 __all__ = [
     "BlogPostAPIView",
     "BlogDetailAPIView",
+    "CommentAPIView",
+    "CommentDetailAPIView",
 ]

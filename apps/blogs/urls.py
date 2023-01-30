@@ -6,5 +6,6 @@ from apps.blogs import views
 
 urlpatterns = [
     path('', views.BlogPostAPIView.as_view()),
-    path('<int:pk>/', views.BlogDetailAPIView.as_view())
+    path('<int:pk>/', views.BlogDetailAPIView.as_view()),
+    path('comments/',),
 ]
