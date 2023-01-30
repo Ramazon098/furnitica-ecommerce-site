@@ -46,7 +46,7 @@ class BlogDetailAPIView(APIView):
         try:
             return Blog.objects.get(pk=pk)
         except Blog.DoesNotExist:
-            raise NotFound("The requested user was not found.")
+            raise NotFound("The requested blog post could not be found.")
 
     def get(self, request, pk):
         blog = self.get_object(pk)
